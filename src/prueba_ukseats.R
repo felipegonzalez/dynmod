@@ -67,4 +67,5 @@ lines(nivel.suave + 1.7*sd.nivel, col=2, type='l', lty=3)
 
 ## Residuales de forecast
 plot(unlist(residuales.1 <- unlist(salida.filt$filter$e)), type='o')
+qqnorm(residuales.1)
 acf(residuales.1)
