@@ -15,7 +15,7 @@ mod.2$d0 <- 0.01
 
 
 salida.filt <- dlm.filt(y, mod.2, bloques=list(1:2, 3:10,11:13), 
-	descuento=c(0.95,0.97,0.99), delta=0.99)
+	descuento=c(0.80,0.95,0.99), delta=0.99)
 salida <- salida.filt$filter
 
 plot(y, type='p')
@@ -35,7 +35,6 @@ plot(y, type='p', ylim=c(1.9,2.1))
 lines(sapply(salida$f, function(el){el[1,1]}), col=2, type='l')
 lines(1.7*sd.1+  sapply(salida$f, function(el){el[1,1]}), col=2, type='l',lty=3)
 lines(-1.7*sd.1+  sapply(salida$f, function(el){el[1,1]}), col=2, type='l',lty=3)
-acf(unlist(salida$e))
 
 plot(y, type='p', ylim=c(1.9,2.1))
 lines(sapply(salida$m, function(el){el[1,1]}), col=2, type='l')
@@ -63,3 +62,9 @@ lines(sapply(salida$m, function(el){el[1,1]}), col=5)
 lines(nivel.suave - 1.7*sd.nivel, col=2, type='l', lty=3)
 lines(nivel.suave + 1.7*sd.nivel, col=2, type='l', lty=3)
 
+
+
+
+## Residuales de forecast
+plot(unlist(residuales.1 <- unlist(salida.filt$filter$e)), type='o')
+acf(residuales.1)

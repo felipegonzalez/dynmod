@@ -15,7 +15,7 @@ y.2 <- sqrt(y.1)
 #plot(y.2)
 
 salida.filt <- dlm.filt(y.2, mod.1, bloques=list(1:2, 2:4), 
-	descuento=c(0.90,0.80), delta=0.8)
+	descuento=c(0.85,0.90), delta=0.8)
 salida <- salida.filt$filter
 comp.1 <- extract.comps(salida.filt, comps=1)
 sd.1 <- sqrt(unlist(salida$n)*unlist(salida$Q)/(unlist(salida$n)-2))
@@ -32,9 +32,15 @@ lines(sapply(salida$m, function(el){el[1,1]}), col=2, type='l')
 
 ## Suavizamento
 salida.smooth <- dlm.smooth(salida.filt)
-sd.nivel <- sapply(salida.smooth$R.smooth, function(el){el[1,1]})
+sd.nivel <- sqrt(sapply(salida.smooth$R.smooth, function(el){el[1,1]}))
 ## Nivel suavizado
 plot(y.2, type='p',ylim=c(0,40))
 lines(nivel.suave <- sapply(salida.smooth$a, function(el){el[1,1]}), col=2, type='l')
-lines(nivel.suave - 1.7*sd.nivel, col=2, type='l')
-lines(nivel.suave + 1.7*sd.nivel, col=2, type='l')
+lines(nivel.suave - 1.7*sd.nivel, col=2, type='l', lty=3)
+lines(nivel.suave + 1.7*sd.nivel, col=2, type='l', lty=3)
+
+
+## Residuales de forecast
+plot(unlist(residuales.1 <- unlist(salida.filt$filter$e)), type='o')
+qqnorm(residuales.1)
+acf(residuales.1)
