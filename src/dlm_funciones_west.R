@@ -85,5 +85,24 @@ extract.comps <- function(mod.filt, comps){
 }
 
 dlm.smooth <- function(mod.filt){
+	a.smooth <- list()
+	R.smooth <- list()
+	B <- list()
+	T <- length(mod.filt$filter$y)
+	a.smooth[[1]] <- mod.filt$filter$m[[T]]
+	R.smooth[[1]] <- mod.filt$filter$R[[T]]
+	for(k in 2:T){
+		C <- mod.filt$filter$C[[T - k + 1]]
+		GG <- mod.filt$model$GG
+		R <- mod.filt$filter$R[[T - k + 2]]
+		B[[k]] <- C%*%t(GG)%*%solve(R)
 
+		m <- salida.filt$filter$m[[T - k + 1]]
+		a <- salida.filt$filter$a[[T - k + 2]]
+		a.smooth.ant <- a.smooth[[k - 1]]
+		R.smooth.ant <- R.smooth[[k - 1]]
+		a.smooth[[k]] <- m - B[[k]]%*%(a - a.smooth.ant)
+		R.smooth[[k]] <- C - B[[k]]%*%(R-R.smooth.ant)%*%t(B[[k]])
+	}
+	list(a.smooth = rev(a.smooth), R.smooth = rev(R.smooth))
 }

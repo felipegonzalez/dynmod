@@ -15,7 +15,7 @@ mod.2$d0 <- 0.01
 
 
 salida.filt <- dlm.filt(y, mod.2, bloques=list(1:2, 3:10,11:13), 
-	descuento=c(0.90,0.97,0.99), delta=0.99)
+	descuento=c(0.95,0.97,0.99), delta=0.99)
 salida <- salida.filt$filter
 
 plot(y, type='p')
@@ -45,4 +45,21 @@ plot(sapply(salida$m, function(el){el[3,1]}), col=2, type='o')
 plot(sapply(salida$m, function(el){el[11,1]}), col=2, type='o')
 plot(sapply(salida$m, function(el){el[12,1]}), col=2, type='o')
 plot(sapply(salida$m, function(el){el[13,1]}), col=2, type='o')
+
+
+
+## Nivel filtrado
+plot(y, type='o')
+lines(sapply(salida$m, function(el){el[1,1]}), col=2, type='o')
+
+## Suavizamento
+salida.smooth <- dlm.smooth(salida.filt)
+sd.nivel <- sqrt(sapply(salida.smooth$R.smooth, function(el){el[1,1]}))
+## Nivel suavizado
+plot(y, type='p')
+lines(nivel.suave <- sapply(salida.smooth$a, function(el){el[1,1]}), col=2, type='l')
+lines(sapply(salida$m, function(el){el[1,1]}), col=5)
+
+lines(nivel.suave - 1.7*sd.nivel, col=2, type='l', lty=3)
+lines(nivel.suave + 1.7*sd.nivel, col=2, type='l', lty=3)
 
