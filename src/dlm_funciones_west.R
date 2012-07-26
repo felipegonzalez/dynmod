@@ -97,8 +97,8 @@ dlm.smooth <- function(mod.filt){
 		R <- mod.filt$filter$R[[T - k + 2]]
 		B[[k]] <- C%*%t(GG)%*%solve(R)
 
-		m <- salida.filt$filter$m[[T - k + 1]]
-		a <- salida.filt$filter$a[[T - k + 2]]
+		m <- mod.filt$filter$m[[T - k + 1]]
+		a <- mod.filt$filter$a[[T - k + 2]]
 		a.smooth.ant <- a.smooth[[k - 1]]
 		R.smooth.ant <- R.smooth[[k - 1]]
 		a.smooth[[k]] <- m - B[[k]]%*%(a - a.smooth.ant)
@@ -106,3 +106,6 @@ dlm.smooth <- function(mod.filt){
 	}
 	list(a.smooth = rev(a.smooth), R.smooth = rev(R.smooth))
 }
+
+
+
