@@ -14,9 +14,12 @@ mod.1$d0 <- 1
 y.2 <- sqrt(y.1)
 #plot(y.2)
 
-salida <- dlm.filt(y.2, mod.1, bloques=list(1:2, 2:4), 
+salida.filt <- dlm.filt(y.2, mod.1, bloques=list(1:2, 2:4), 
 	descuento=c(0.90,0.80), delta=0.8)
+salida <- salida.filt$filter
 
+
+comp.1 <- extract.comps(salida.filt, comps=1)
 
 # plot(y.2, type='p')
 # lines(sapply(salida$f, function(el){el[1,1]}), col=2, type='l')
@@ -27,7 +30,7 @@ salida <- dlm.filt(y.2, mod.1, bloques=list(1:2, 2:4),
 
 # plot(sapply(salida$m, function(el){el[3,1]}), col=2, type='o')
 
-# sd.1 <- sqrt(unlist(salida$n)*unlist(salida$Q)/(unlist(salida$n)-2))
+sd.1 <- sqrt(unlist(salida$n)*unlist(salida$Q)/(unlist(salida$n)-2))
 # plot(sd.1)
 
 # Forecast

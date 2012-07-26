@@ -14,8 +14,9 @@ mod.2$n0 <- 1
 mod.2$d0 <- 0.01
 
 
-salida <- dlm.filt(y, mod.2, bloques=list(1:2, 3:10,11:13), 
+salida.filt <- dlm.filt(y, mod.2, bloques=list(1:2, 3:10,11:13), 
 	descuento=c(0.90,0.97,0.99), delta=0.99)
+salida <- salida.filt$filter
 
 plot(y, type='p')
 lines(sapply(salida$f, function(el){el[1,1]}), col=2, type='l')
