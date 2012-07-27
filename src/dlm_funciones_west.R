@@ -71,7 +71,7 @@ dlm.filt <- function(y, mod, bloques, descuento, delta){
 }
 
 
-extract.comps <- function(mod.filt, comps){
+extract.comps.filt <- function(mod.filt, comps){
 	comp <- list()
 	comp.var <- list()
 	indices <- unlist(mod.filt$bloques[[comps]])
@@ -82,6 +82,32 @@ extract.comps <- function(mod.filt, comps){
 		comp.var[[t]] <- (FF)%*%C%*%t(FF)
 	}
 	list(comp = comp, comp.var = comp.var)
+}
+
+extract.comps.smooth <- function(mod.smooth, comps){
+	comp <- list()
+	comp.var <- list()
+	mod.filt <- mod.smooth$mod.filt
+	indices <- unlist(mod.filt$bloques[comps])
+	for(t in seq(length.out = length(mod.filt$filter$y))){
+		FF <- mod.filt$FF[[t]][1, indices, drop = FALSE]
+		R <- mod.smooth$R.smooth[[t]][indices, indices, drop = FALSE]
+		comp[[t]] <- FF%*%(mod.smooth$a.smooth[[t]][indices])
+		comp.var[[t]] <- (FF)%*%R%*%t(FF)
+	}
+	list(comp = comp, comp.var = comp.var)
+}
+
+plot.df <- function(mod.filt,ylim=NULL){
+	salida <- mod.filt$filter
+	y <- mod.filt$filter$y
+	sd.1 <- sqrt(unlist(salida$n)*unlist(salida$Q)/(unlist(salida$n)-2))
+	f <- sapply(salida$f, function(el){el[1,1]})
+	plot(y, type='p', ylim=ylim)
+	lines(f, col=2, type='l')
+	lines(1.7*sd.1+  f, col=2, type='l',lty=3)
+	lines(-1.7*sd.1+ f, col=2, type='l',lty=3)
+	list(f=f,sd.f=sd.1)
 }
 
 dlm.smooth <- function(mod.filt){
@@ -104,7 +130,7 @@ dlm.smooth <- function(mod.filt){
 		a.smooth[[k]] <- m - B[[k]]%*%(a - a.smooth.ant)
 		R.smooth[[k]] <- C - B[[k]]%*%(R-R.smooth.ant)%*%t(B[[k]])
 	}
-	list(a.smooth = rev(a.smooth), R.smooth = rev(R.smooth))
+	list(a.smooth = rev(a.smooth), R.smooth = rev(R.smooth), mod.filt=mod.filt)
 }
 
 

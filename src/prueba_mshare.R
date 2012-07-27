@@ -24,18 +24,11 @@ salida.f <- dlm.filt(y, mod.2, bloques=list(1, 2:4),
 	descuento=c(0.98,0.95), delta=0.99)
 salida <- salida.f$filter
 
-
-sd.1 <- sqrt(unlist(salida$n)*unlist(salida$Q)/(unlist(salida$n)-2))
-plot(y, type='p', ylim=c(38,45))
-lines(sapply(salida$f, function(el){el[1,1]}), col=2, type='l')
-lines(1.7*sd.1+  sapply(salida$f, function(el){el[1,1]}), col=2, type='l',lty=3)
-lines(-1.7*sd.1+  sapply(salida$f, function(el){el[1,1]}), col=2, type='l',lty=3)
-
+forecast.1 <- plot.df(salida.f)
+acf(unlist(salida$e))
 
 plot(y, type='o')
 lines(sapply(salida$a, function(el){el[1,1]}), col=2, type='l')
-
-acf(unlist(salida$e))
 
 
 ## Nivel suavizado
