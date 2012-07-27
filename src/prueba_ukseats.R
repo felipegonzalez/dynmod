@@ -8,7 +8,7 @@ mod.2 <- unclass(
 	dlmModPoly(2, dV = 1, m0=c(2,0), C0 = diag(c(0.01,0.01)^2) )+ 
  	dlmModTrig(s=12, q=4, C0 = (0.5)^2 * diag(nrow = 8), dV = 0) +
 	dlmModReg(X = X.1, 
-		m0=c(0.00,-0.00,-0.00), addInt=FALSE, C0 = (0.05)^2 * diag(nrow = 3))
+		m0=c(0.00,-0.00,-0.02), addInt=FALSE, C0 = (0.05)^2 * diag(nrow = 3))
 	)
 mod.2$k <- 1
 mod.2$n0 <- 1
@@ -16,7 +16,7 @@ mod.2$d0 <- 0.02
 
 
 salida.filt <- dlm.filt(y, mod.2, bloques=list(1:2, 3:10,11:13), 
-	descuento=c(0.85,0.95,0.995), delta=0.99)
+	descuento=c(0.90,0.95,0.99), delta=0.99)
 salida <- salida.filt$filter
 
 ## Pronósticos a un paso y residuales

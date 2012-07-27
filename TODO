@@ -1,0 +1,5 @@
+- Monitoreo e intervención automática: señal 
+	1. fuerte de desajuste -> marcar como outlier, tasas de descuento chicas (0.1 para trend o seasonal, 0.8 para regresión, por un periodo). Por ejemplo, probabilidad < 0.001 de observar.
+	2. Suma de desajustes -> incrementar también descuentos (evidencia acumulada)
+
+- Implementar pronósticos para más de un periodo (usar sólo un descuento como en West y Harrison)
