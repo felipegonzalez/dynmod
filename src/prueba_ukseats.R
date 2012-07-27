@@ -50,8 +50,11 @@ salida.smooth <- dlm.smooth(salida.filt)
 
 ## Extraer suavizado de tendencia y estacionalidad
 comps.1y2 <- extract.comps.smooth(salida.smooth, comps=1:2)
+comps.f.1y2 <- extract.comps.filt(salida.filt, comps=1:2)
+
 plot(y, type='o')
-lines(unlist(comps.1y2$comp), col=2, type='o')
+lines(unlist(comps.1y2$comp), col=2, type='l')
+lines(unlist(comps.f.1y2$comp), col=3, type='l')
 
 
 sd.nivel <- sqrt(sapply(salida.smooth$R.smooth, function(el){el[1,1]}))

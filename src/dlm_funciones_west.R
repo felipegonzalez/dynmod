@@ -74,7 +74,7 @@ dlm.filt <- function(y, mod, bloques, descuento, delta){
 extract.comps.filt <- function(mod.filt, comps){
 	comp <- list()
 	comp.var <- list()
-	indices <- unlist(mod.filt$bloques[[comps]])
+	indices <- unlist(mod.filt$bloques[comps])
 	for(t in seq(length.out = length(mod.filt$filter$y))){
 		FF <- mod.filt$FF[[t]][1, indices, drop = FALSE]
 		C <- mod.filt$filter$C[[t]][indices, indices, drop = FALSE]
